@@ -52,7 +52,7 @@ public class CheckStatusActivity extends Activity implements LoaderManager.Loade
     });
     progressLayout = (ViewGroup) findViewById(R.id.progress);
 
-    startService(new Intent(this, CheckStatusService.class));
+    getLoaderManager().initLoader(LOADER_ID, null, this);
   }
 
   @Override
@@ -60,11 +60,11 @@ public class CheckStatusActivity extends Activity implements LoaderManager.Loade
     super.onResume();
 
     NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-    for (Device device: Device.values()) {
+    for (Device device : Device.values()) {
       notificationManager.cancel(device.ordinal());
     }
 
-    getLoaderManager().restartLoader(LOADER_ID, null, this);
+    startService(new Intent(this, CheckStatusService.class));
   }
 
   @Override
@@ -84,6 +84,10 @@ public class CheckStatusActivity extends Activity implements LoaderManager.Loade
     int id = item.getItemId();
 
     if (id == R.id.action_settings) {
+      return true;
+    }
+    if (id == R.id.action_refresh) {
+      startService(new Intent(this, CheckStatusService.class));
       return true;
     }
 
