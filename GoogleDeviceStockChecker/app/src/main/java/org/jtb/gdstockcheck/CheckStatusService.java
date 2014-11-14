@@ -17,8 +17,8 @@ import android.net.Uri;
 import java.util.List;
 
 public class CheckStatusService extends IntentService {
-  static final long INTERVAL_FOREGROUND = 1 * 60 * 1000;
-  static final long INTERVAL_BACKGROUND = 5 * 60 * 1000;
+  static final long INTERVAL_FOREGROUND = 20 * 1000;
+  static final long INTERVAL_BACKGROUND = 1 * 60 * 1000;
 
   public CheckStatusService() {
     super(CheckStatusService.class.getName());
@@ -29,11 +29,16 @@ public class CheckStatusService extends IntentService {
     try {
       ConnectivityManager connManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
       NetworkInfo info = connManager.getActiveNetworkInfo();
-      if (info == null || !info.isConnected() || info.getType() == ConnectivityManager.TYPE_MOBILE) {
+      if (info == null || !info.isConnected()) {
         return;
       }
 
       boolean foreground = isForeground(this);
+
+      if (!foreground && info.getType() == ConnectivityManager.TYPE_MOBILE) {
+        return;
+      }
+
       boolean alertSound = false;
 
       for (Device device : Device.values()) {
