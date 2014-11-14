@@ -4,8 +4,12 @@ import android.content.Context;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
+import android.os.Handler;
+import android.os.Looper;
 
 class Alert {
+  private static final Handler handler = new Handler(Looper.getMainLooper());
+
   private final Context context;
 
   Alert(Context context) {
@@ -13,12 +17,18 @@ class Alert {
   }
 
   void play() {
-    try {
-      Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-      Ringtone r = RingtoneManager.getRingtone(context, notification);
-      r.play();
-    } catch (Exception e) {
-      e.printStackTrace();
-    }
+    handler.post(new Runnable() {
+      @Override
+      public void run() {
+        try {
+          Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+          Ringtone r = RingtoneManager.getRingtone(context, notification);
+          r.play();
+        } catch (Exception e) {
+          e.printStackTrace();
+        }
+      }
+    });
+
   }
 }

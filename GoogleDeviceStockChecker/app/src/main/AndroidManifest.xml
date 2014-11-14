@@ -28,6 +28,9 @@
                 <action android:name="android.intent.action.BOOT_COMPLETED"/>
             </intent-filter>
         </receiver>
+        <provider
+            android:authorities="org.jtb.gdstockcheck"
+            android:name=".DeviceStatusProvider"/>
     </application>
 
 </manifest>

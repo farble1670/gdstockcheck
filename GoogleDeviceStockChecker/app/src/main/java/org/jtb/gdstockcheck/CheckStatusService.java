@@ -6,6 +6,7 @@ import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.ComponentName;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
@@ -21,24 +22,35 @@ public class CheckStatusService extends IntentService {
 
   @Override
   protected void onHandleIntent(Intent intent) {
-    ActivityManager am = (ActivityManager) this .getSystemService(ACTIVITY_SERVICE);
-    List<ActivityManager.RunningTaskInfo> taskInfo = am.getRunningTasks(1);
-    ComponentName componentInfo = taskInfo.get(0).topActivity;
-    if (componentInfo.getClassName().equals(CheckStatusActivity.class.getName())) {
-      return;
-    }
-
     ConnectivityManager connManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
     NetworkInfo info = connManager.getActiveNetworkInfo();
-    if (info.getType() == ConnectivityManager.TYPE_MOBILE) {
+    if (info == null || !info.isConnected() || info.getType() == ConnectivityManager.TYPE_MOBILE) {
       return;
     }
 
-    for (Device device: Device.values()) {
+    boolean foreground = isForeground();
+    boolean alertSound = false;
+
+    for (Device device : Device.values()) {
+      DeviceStatus loadingStatus = new DeviceStatus(device, Status.LOADING);
+      getContentResolver().insert(DeviceStatusContract.DeviceStatus.CONTENT_URI, loadingStatus.toContentValues());
+
       Status status = new CheckStatus(device).call();
+      DeviceStatus deviceStatus = new DeviceStatus(device, status);
+      ContentValues values = deviceStatus.toContentValues();
+      getContentResolver().insert(DeviceStatusContract.DeviceStatus.CONTENT_URI, values);
+
       if (status == Status.IN_STOCK) {
-        showNotification(device, status);
+        if (!foreground) {
+          showNotification(device, status);
+        } else {
+          alertSound = true;
+        }
       }
+    }
+
+    if (alertSound) {
+      new Alert(this).play();
     }
   }
 
@@ -63,4 +75,13 @@ public class CheckStatusService extends IntentService {
     notificationManager.notify(device.ordinal(), notification);
   }
 
+  private boolean isForeground() {
+    ActivityManager am = (ActivityManager) this.getSystemService(ACTIVITY_SERVICE);
+    List<ActivityManager.RunningTaskInfo> taskInfo = am.getRunningTasks(1);
+    ComponentName componentInfo = taskInfo.get(0).topActivity;
+    if (componentInfo.getClassName().equals(CheckStatusActivity.class.getName())) {
+      return true;
+    }
+    return false;
+  }
 }

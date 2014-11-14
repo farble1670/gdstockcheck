@@ -7,7 +7,8 @@ import android.content.Context;
 import android.content.Intent;
 
 public class CheckStatusReceiver extends BroadcastReceiver {
-  static final long INTERVAL = 5 * 60 * 1000;
+  static final long INTERVAL = 1 * 60 * 1000;
+  //static final long INTERVAL = 10 * 1000;
 
   @Override
   public void onReceive(Context context, Intent intent) {
