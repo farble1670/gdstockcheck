@@ -52,7 +52,7 @@ public class CheckStatusActivity extends Activity implements LoaderManager.Loade
     });
     progressLayout = (ViewGroup) findViewById(R.id.progress);
 
-    CheckStatusReceiver.schedule(this);
+    startService(new Intent(this, CheckStatusService.class));
   }
 
   @Override

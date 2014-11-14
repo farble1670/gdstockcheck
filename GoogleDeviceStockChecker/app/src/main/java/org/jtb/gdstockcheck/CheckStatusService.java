@@ -1,6 +1,7 @@
 package org.jtb.gdstockcheck;
 
 import android.app.ActivityManager;
+import android.app.AlarmManager;
 import android.app.IntentService;
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -16,41 +17,48 @@ import android.net.Uri;
 import java.util.List;
 
 public class CheckStatusService extends IntentService {
+  static final long INTERVAL_FOREGROUND = 1 * 60 * 1000;
+  static final long INTERVAL_BACKGROUND = 5 * 60 * 1000;
+
   public CheckStatusService() {
     super(CheckStatusService.class.getName());
   }
 
   @Override
   protected void onHandleIntent(Intent intent) {
-    ConnectivityManager connManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-    NetworkInfo info = connManager.getActiveNetworkInfo();
-    if (info == null || !info.isConnected() || info.getType() == ConnectivityManager.TYPE_MOBILE) {
-      return;
-    }
+    try {
+      ConnectivityManager connManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+      NetworkInfo info = connManager.getActiveNetworkInfo();
+      if (info == null || !info.isConnected() || info.getType() == ConnectivityManager.TYPE_MOBILE) {
+        return;
+      }
 
-    boolean foreground = isForeground();
-    boolean alertSound = false;
+      boolean foreground = isForeground(this);
+      boolean alertSound = false;
 
-    for (Device device : Device.values()) {
-      DeviceStatus loadingStatus = new DeviceStatus(device, Status.LOADING);
-      getContentResolver().insert(DeviceStatusContract.DeviceStatus.CONTENT_URI, loadingStatus.toContentValues());
+      for (Device device : Device.values()) {
+        DeviceStatus loadingStatus = new DeviceStatus(device, Status.LOADING);
+        getContentResolver().insert(DeviceStatusContract.DeviceStatus.CONTENT_URI, loadingStatus.toContentValues());
 
-      Status status = new CheckStatus(device).call();
-      DeviceStatus deviceStatus = new DeviceStatus(device, status);
-      ContentValues values = deviceStatus.toContentValues();
-      getContentResolver().insert(DeviceStatusContract.DeviceStatus.CONTENT_URI, values);
+        Status status = new CheckStatus(device).call();
+        DeviceStatus deviceStatus = new DeviceStatus(device, status);
+        ContentValues values = deviceStatus.toContentValues();
+        getContentResolver().insert(DeviceStatusContract.DeviceStatus.CONTENT_URI, values);
 
-      if (status == Status.IN_STOCK) {
-        if (!foreground) {
-          showNotification(device, status);
-        } else {
-          alertSound = true;
+        if (status == Status.IN_STOCK) {
+          if (!foreground) {
+            showNotification(device, status);
+          } else {
+            alertSound = true;
+          }
         }
       }
-    }
 
-    if (alertSound) {
-      new Alert(this).play();
+      if (alertSound) {
+        new Alert(this).play();
+      }
+    } finally {
+      schedule(this);
     }
   }
 
@@ -75,8 +83,18 @@ public class CheckStatusService extends IntentService {
     notificationManager.notify(device.ordinal(), notification);
   }
 
-  private boolean isForeground() {
-    ActivityManager am = (ActivityManager) this.getSystemService(ACTIVITY_SERVICE);
+
+  static void schedule(Context context) {
+    Intent intent = new Intent(context, CheckStatusReceiver.class);
+    PendingIntent alarmIntent = PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+    AlarmManager alarmMgr = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+    alarmMgr.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + (isForeground(context) ? INTERVAL_FOREGROUND : INTERVAL_BACKGROUND), alarmIntent);
+  }
+
+
+  static boolean isForeground(Context context) {
+    ActivityManager am = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
     List<ActivityManager.RunningTaskInfo> taskInfo = am.getRunningTasks(1);
     ComponentName componentInfo = taskInfo.get(0).topActivity;
     if (componentInfo.getClassName().equals(CheckStatusActivity.class.getName())) {
@@ -84,4 +102,5 @@ public class CheckStatusService extends IntentService {
     }
     return false;
   }
+
 }
