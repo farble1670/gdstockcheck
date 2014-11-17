@@ -15,8 +15,11 @@ import android.net.NetworkInfo;
 import android.net.Uri;
 
 import java.util.List;
+import java.util.Random;
 
 public class CheckStatusService extends IntentService {
+  private static int NOTIFICATION_ID_BASE = new Random(System.currentTimeMillis()).nextInt();
+
   static final long INTERVAL_FOREGROUND = 20 * 1000;
   static final long INTERVAL_BACKGROUND = 1 * 60 * 1000;
 
@@ -85,7 +88,7 @@ public class CheckStatusService extends IntentService {
     mBuilder.setAutoCancel(true);
 
     Notification notification = mBuilder.build();
-    notificationManager.notify(device.ordinal(), notification);
+    notificationManager.notify(NOTIFICATION_ID_BASE + device.ordinal(), notification);
   }
 
 
@@ -102,7 +105,7 @@ public class CheckStatusService extends IntentService {
     ActivityManager am = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
     List<ActivityManager.RunningTaskInfo> taskInfo = am.getRunningTasks(1);
     ComponentName componentInfo = taskInfo.get(0).topActivity;
-    if (componentInfo.getClassName().equals(CheckStatusActivity.class.getName())) {
+    if (componentInfo.getPackageName().equals(context.getPackageName()) && componentInfo.getClassName().equals(CheckStatusActivity.class.getName())) {
       return true;
     }
     return false;
