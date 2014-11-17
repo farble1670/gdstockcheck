@@ -4,7 +4,7 @@ import android.net.Uri;
 import android.provider.BaseColumns;
 
 public final class DeviceStatusContract {
-  public static final String AUTHORITY = "org.jtb.gdstockcheck";
+  public static final String AUTHORITY = BuildConfig.PACKAGE_NAME;
   public static final Uri AUTHORITY_URI = Uri.parse("content://" + AUTHORITY);
 
   public interface DeviceStatusColumns {
