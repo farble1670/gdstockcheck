@@ -22,10 +22,19 @@ android {
     versionCode 1
     versionName "1.0"
   }
+  signingConfigs {
+    release {
+      storeFile file("release.keystore")
+      storePassword System.getenv("gdstockcheck_keystore_password")
+      keyAlias "gdstockcheck"
+      keyPassword System.getenv("gdstockcheck_keystore_password")
+    }
+  }
   buildTypes {
     release {
       runProguard false
       proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+      signingConfig signingConfigs.release
     }
   }
 
