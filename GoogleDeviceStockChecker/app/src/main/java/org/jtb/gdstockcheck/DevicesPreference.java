@@ -45,6 +45,15 @@ class DevicesPreference {
     return devices;
   }
 
+  List<String> getNames() {
+    List<Device> devices = get();
+    List<String> strings = new ArrayList<String>();
+    for (Device device: devices) {
+      strings.add(device.name);
+    }
+    return strings;
+  }
+
   void set(Collection<Device> devices) {
     Set<String> ds = new LinkedHashSet<String>();
     for (Device device: devices) {

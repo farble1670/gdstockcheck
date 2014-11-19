@@ -19,8 +19,8 @@ android {
   defaultConfig {
     minSdkVersion 17
     targetSdkVersion 19
-    versionCode 1
-    versionName "1.0"
+    versionCode versionCode
+    versionName "${versionName}"
   }
   signingConfigs {
     release {
@@ -41,16 +41,23 @@ android {
   productFlavors {
     nexus6 {
       applicationId = 'org.jtb.gdstockcheck.nexus6'
+      versionName = "1.0.1"
+      versionCode = 2
     }
     gwatchr {
       applicationId = 'org.jtb.gdstockcheck.gwatchr'
+      versionName = "1.0"
+      versionCode = 1
     }
     moto360 {
       applicationId = 'org.jtb.gdstockcheck.moto360'
+      versionName = "1.0"
+      versionCode = 1
     }
   }
 }
 
 dependencies {
   compile fileTree(dir: 'libs', include: ['*.jar'])
+  compile 'com.google.guava:guava:18.0'
 }
