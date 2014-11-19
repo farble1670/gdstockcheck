@@ -1,23 +1,20 @@
 package org.jtb.gdstockcheck;
 
 import android.content.Context;
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
 
-class KeepScreenOnPreference {
-  private final Context context;
-  private final SharedPreferences prefs;
+class KeepScreenOnPreference extends PreferenceWrapper<Boolean>{
 
   KeepScreenOnPreference(Context context) {
-    this.context = context;
-    prefs = PreferenceManager.getDefaultSharedPreferences(context);
+    super(context);
   }
 
-  boolean isKeepScreenOn() {
+  @Override
+  Boolean get() {
     return prefs.getBoolean(context.getString(R.string.preference_keep_screen_on), false);
   }
 
-  void setKeepScreenOn(boolean keepScreenOn) {
+  @Override
+  void put(Boolean keepScreenOn) {
     prefs.edit().putBoolean(context.getString(R.string.preference_keep_screen_on), keepScreenOn).apply();
   }
 }

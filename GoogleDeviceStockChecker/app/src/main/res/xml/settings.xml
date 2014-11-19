@@ -15,4 +15,10 @@
         android:title="Keep Screen On?"
         android:summary="Keep screen on when running in the foreground?"
         android:defaultValue="false"/>
+
+    <CheckBoxPreference
+        android:key="@string/preference_allow_mobile"
+        android:title="Allow mobile networks?"
+        android:summary="Check stock status while on mobile networks?"
+        android:defaultValue="false"/>
 </PreferenceScreen>

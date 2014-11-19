@@ -10,5 +10,6 @@
     <string name="status_loading">Loading …</string>
     <string name="status_unknown">Unknown</string>
     <string name="preference_keep_screen_on">keepScreenOn</string>
+    <string name="preference_allow_mobile">allowMobile</string>
 
 </resources>

@@ -65,7 +65,7 @@ public class CheckStatusActivity extends Activity implements LoaderManager.Loade
       notificationManager.cancel(device.ordinal());
     }
 
-    if (new KeepScreenOnPreference(this).isKeepScreenOn()) {
+    if (new KeepScreenOnPreference(this).get()) {
       getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
     } else {
       getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);

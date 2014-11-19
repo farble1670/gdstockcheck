@@ -37,8 +37,9 @@ public class CheckStatusService extends IntentService {
       }
 
       boolean foreground = isForeground(this);
+      boolean allowMobile = new AllowMobilePreference(this).isAllowMobile();
 
-      if (!foreground && info.getType() == ConnectivityManager.TYPE_MOBILE) {
+      if (allowMobile || (!foreground && info.getType() != ConnectivityManager.TYPE_MOBILE)) {
         return;
       }
 

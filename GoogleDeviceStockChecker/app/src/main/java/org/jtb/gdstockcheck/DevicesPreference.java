@@ -1,27 +1,22 @@
 package org.jtb.gdstockcheck;
 
 import android.content.Context;
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
-class DevicesPreference {
-  private final Context context;
-  private final SharedPreferences prefs;
+class DevicesPreference extends PreferenceWrapper<List<Device>> {
 
   DevicesPreference(Context context) {
-    this.context = context;
-    prefs = PreferenceManager.getDefaultSharedPreferences(context);
+    super(context);
   }
 
+  @Override
   List<Device> get() {
     List<Device> devices;
     if (prefs.contains(context.getString(R.string.preference_devices))) {
@@ -33,7 +28,7 @@ class DevicesPreference {
       }
     } else {
       devices = new ArrayList<Device>(Arrays.asList(Device.values()));
-      set(devices);
+      put(devices);
     }
 
     Collections.sort(devices, new Comparator<Device>() {
@@ -54,7 +49,8 @@ class DevicesPreference {
     return strings;
   }
 
-  void set(Collection<Device> devices) {
+  @Override
+  void put(List<Device> devices) {
     Set<String> ds = new LinkedHashSet<String>();
     for (Device device: devices) {
       ds.add(device.name());
