@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<PreferenceScreen
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+  <MultiSelectListPreference
+      android:key="devices"
+      android:title="Active Devices"
+      android:summary="Choose device to check stock status."
+      android:entries="@array/device_entries"
+      android:entryValues="@array/device_values"/>
+
+</PreferenceScreen>

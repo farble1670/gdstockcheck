@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <string-array
+      name="device_values">
+    <item>MOTO_360_BLACK</item>
+    <item>MOTO_360_STONE</item>
+  </string-array>
+  <string-array
+      name="device_entries">
+    <item>Moto 360, Black</item>
+    <item>Moto 360, Stone</item>
+  </string-array>
+</resources>

@@ -15,6 +15,7 @@
         android:theme="@style/AppTheme" >
         <activity
             android:name=".CheckStatusActivity"
+            android:exported="true"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -22,16 +23,23 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".SettingsActivity"
+            android:exported="false"/>
 
-        <service android:name=".CheckStatusService"/>
-        <receiver android:name=".CheckStatusReceiver">
+        <service
+            android:exported="false"
+            android:name=".CheckStatusService"/>
+        <receiver
+            android:exported="true"
+            android:name=".CheckStatusReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED"/>
             </intent-filter>
         </receiver>
         <provider
             android:authorities="${applicationId}"
-            android:exported="true"
+            android:exported="false"
             android:name=".DeviceStatusProvider"/>
     </application>
 

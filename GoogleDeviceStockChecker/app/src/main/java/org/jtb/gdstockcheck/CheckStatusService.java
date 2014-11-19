@@ -44,7 +44,8 @@ public class CheckStatusService extends IntentService {
 
       boolean alertSound = false;
 
-      for (Device device : Device.values()) {
+      DevicesPreference devicesPreference = new DevicesPreference(this);
+      for (Device device : devicesPreference.get()) {
         DeviceStatus loadingStatus = new DeviceStatus(device, Status.LOADING);
         getContentResolver().insert(DeviceStatusContract.DeviceStatus.CONTENT_URI, loadingStatus.toContentValues());
 

@@ -3,5 +3,11 @@
 
     <string name="app_name">Google Device Stock Checker</string>
     <string name="action_settings">Settings</string>
+    <string name="preference_devices">devices</string>
+
+    <string name="status_in_stock">In stock</string>
+    <string name="status_out_of_inventory">Out of inventory</string>
+    <string name="status_loading">Loading …</string>
+    <string name="status_unknown">Unknown</string>
 
 </resources>

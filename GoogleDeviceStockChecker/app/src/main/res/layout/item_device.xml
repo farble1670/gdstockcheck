@@ -8,6 +8,10 @@
     android:layout_height="match_parent">
 
   <LinearLayout
+      android:layout_marginTop="@dimen/item_vertical_margin"
+      android:layout_marginBottom="@dimen/item_vertical_margin"
+      android:layout_marginLeft="@dimen/item_horizontal_margin"
+      android:layout_marginRight="@dimen/item_horizontal_margin"
       android:orientation="horizontal"
       android:layout_width="match_parent"
       android:layout_height="match_parent">
@@ -19,7 +23,7 @@
         android:layout_height="128dp"/>
 
     <LinearLayout
-        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_marginLeft="@dimen/item_horizontal_margin"
         android:layout_gravity="center_vertical"
         android:orientation="vertical"
         android:layout_width="wrap_content"
@@ -36,6 +40,7 @@
           android:textAppearance="?android:attr/textAppearanceMedium"
           android:layout_gravity="center_vertical"
           android:id="@+id/status"
+          android:textAllCaps="true"
           tools:text="IN STOCK"
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"/>

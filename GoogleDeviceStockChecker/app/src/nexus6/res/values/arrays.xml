@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <string-array
+      name="device_values">
+    <item>NEXUS_6_BLUE_32GB</item>
+    <item>NEXUS_6_BLUE_64GB</item>
+    <item>NEXUS_6_WHITE_32GB</item>
+    <item>NEXUS_6_WHITE_64GB</item>
+  </string-array>
+  <string-array
+      name="device_entries">
+    <item>Nexus 6, Blue, 32GB</item>
+    <item>Nexus 6, Blue, 64GB</item>
+    <item>Nexus 6, White, 32GB</item>
+    <item>Nexus 6, White, 64GB</item>
+  </string-array>
+</resources>

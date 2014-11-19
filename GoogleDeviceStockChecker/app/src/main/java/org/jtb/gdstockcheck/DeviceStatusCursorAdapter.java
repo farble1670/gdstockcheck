@@ -34,7 +34,7 @@ public class DeviceStatusCursorAdapter extends CursorAdapter {
     name.setText(deviceStatus.device.name);
 
     final TextView status = (TextView) view.findViewById(R.id.status);
-    status.setText(deviceStatus.status.name());
+    status.setText(deviceStatus.status.stringId);
     status.setTextColor(deviceStatus.status.color);
 
     ViewGroup progressLayout = (ViewGroup) view.findViewById(R.id.progress);
