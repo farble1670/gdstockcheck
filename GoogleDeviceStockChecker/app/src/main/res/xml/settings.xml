@@ -10,4 +10,9 @@
       android:entries="@array/device_entries"
       android:entryValues="@array/device_values"/>
 
+    <CheckBoxPreference
+        android:key="@string/preference_keep_screen_on"
+        android:title="Keep Screen On?"
+        android:summary="Keep screen on when running in the foreground?"
+        android:defaultValue="false"/>
 </PreferenceScreen>

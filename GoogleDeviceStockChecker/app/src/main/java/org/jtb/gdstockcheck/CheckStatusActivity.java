@@ -14,6 +14,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
@@ -62,6 +63,12 @@ public class CheckStatusActivity extends Activity implements LoaderManager.Loade
     NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
     for (Device device : Device.values()) {
       notificationManager.cancel(device.ordinal());
+    }
+
+    if (new KeepScreenOnPreference(this).isKeepScreenOn()) {
+      getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+    } else {
+      getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
     }
 
     startService(new Intent(this, CheckStatusService.class));
