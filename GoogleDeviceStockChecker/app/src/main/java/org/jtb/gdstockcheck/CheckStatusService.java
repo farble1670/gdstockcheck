@@ -65,7 +65,7 @@ public class CheckStatusService extends IntentService {
       }
 
       if (alertSound) {
-        new Alert(this).play();
+        new AudioAlert(this).play();
       }
     } finally {
       schedule(this);

@@ -7,12 +7,12 @@ import android.net.Uri;
 import android.os.Handler;
 import android.os.Looper;
 
-class Alert {
+class AudioAlert {
   private static final Handler handler = new Handler(Looper.getMainLooper());
 
   private final Context context;
 
-  Alert(Context context) {
+  AudioAlert(Context context) {
     this.context = context;
   }
 
