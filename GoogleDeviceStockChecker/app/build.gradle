@@ -41,8 +41,8 @@ android {
   productFlavors {
     nexus6 {
       applicationId = 'org.jtb.gdstockcheck.nexus6'
-      versionName = "1.0.1"
-      versionCode = 2
+      versionName = "1.1"
+      versionCode = 3
     }
     gwatchr {
       applicationId = 'org.jtb.gdstockcheck.gwatchr'
