@@ -12,6 +12,6 @@
     <string name="preference_keep_screen_on">keepScreenOn</string>
     <string name="preference_allow_mobile">allowMobile</string>
     <string name="preference_refresh_interval_foreground">refreshIntervalForeground</string>
-    <string name="preference_refresh_interval_background">refreshIntervalFBackground</string>
+    <string name="preference_refresh_interval_background">refreshIntervalBackground</string>
 
 </resources>

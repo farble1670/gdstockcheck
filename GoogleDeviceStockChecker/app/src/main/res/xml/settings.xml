@@ -38,7 +38,7 @@
 
     <CheckBoxPreference
         android:key="@string/preference_allow_mobile"
-        android:title="Allow mobile networks?"
+        android:title="Allow Mobile Networks?"
         android:summary="Check stock status while on mobile networks?"
         android:defaultValue="false"/>
 </PreferenceScreen>
