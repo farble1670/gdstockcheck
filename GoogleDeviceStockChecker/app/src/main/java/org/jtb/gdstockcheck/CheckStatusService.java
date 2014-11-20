@@ -39,7 +39,7 @@ public class CheckStatusService extends IntentService {
       boolean foreground = isForeground(this);
       boolean allowMobile = new AllowMobilePreference(this).isAllowMobile();
 
-      if (!allowMobile && (!foreground && info.getType() != ConnectivityManager.TYPE_MOBILE)) {
+      if (!foreground && !allowMobile && info.getType() == ConnectivityManager.TYPE_MOBILE) {
         return;
       }
 
@@ -98,8 +98,15 @@ public class CheckStatusService extends IntentService {
     Intent intent = new Intent(context, CheckStatusReceiver.class);
     PendingIntent alarmIntent = PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
+    long interval;
+    if (isForeground(context)) {
+      interval = new ForegroundRefreshIntervalPreference(context).get();
+    } else {
+      interval = new BackgroundRefreshIntervalPreference(context).get();
+    }
+
     AlarmManager alarmMgr = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-    alarmMgr.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + (isForeground(context) ? INTERVAL_FOREGROUND : INTERVAL_BACKGROUND), alarmIntent);
+    alarmMgr.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + interval * 1000, alarmIntent);
   }
 
 

@@ -1,14 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <PreferenceScreen
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:auto="http://schemas.android.com/apk/res-auto">
 
   <MultiSelectListPreference
       android:key="devices"
       android:title="Active Devices"
-      android:summary="Choose device to check stock status."
       android:entries="@array/device_entries"
       android:entryValues="@array/device_values"/>
+
+    <com.michaelnovakjr.numberpicker.NumberPickerPreference
+        android:key="@string/preference_refresh_interval_foreground"
+        android:title="Foreground Refresh Interval"
+        auto:startRange="0"
+        auto:endRange="86400"
+        auto:speed="50"
+        auto:step="10"
+        android:defaultValue="20"
+        auto:defaultValue="20"/>
+
+  <com.michaelnovakjr.numberpicker.NumberPickerPreference
+        android:key="@string/preference_refresh_interval_background"
+        android:title="Background Refresh Interval"
+        auto:startRange="0"
+        auto:endRange="86400"
+        auto:speed="50"
+        auto:step="10"
+        android:defaultValue="60"
+        auto:defaultValue="60"/>
 
     <CheckBoxPreference
         android:key="@string/preference_keep_screen_on"

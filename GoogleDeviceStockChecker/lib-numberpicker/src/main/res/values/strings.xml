@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="dialog_set_number">Установить</string>
+    <string name="dialog_cancel">Отменить</string>
+    <string name="dialog_picker_title">Choose a number</string>
+</resources>
