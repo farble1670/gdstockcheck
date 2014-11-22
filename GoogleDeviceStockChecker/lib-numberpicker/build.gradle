@@ -19,7 +19,7 @@ android {
   defaultConfig {
     applicationId "com.michaelnovakjr.numberpicker"
     minSdkVersion 3
-    targetSdkVersion 15
+    targetSdkVersion 19
     versionCode 1
     versionName "1.0"
   }
