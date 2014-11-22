@@ -180,7 +180,7 @@ public class DeviceStatusProvider extends ContentProvider {
     throw new SQLException("insert failed, URI: " + uri);
   }
 
-  private int getAnalyticsCount(Uri uri) {
+  private int getCount(Uri uri) {
     Cursor c = null;
 
     try {

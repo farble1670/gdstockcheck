@@ -10,6 +10,7 @@ import android.content.ComponentName;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.BitmapFactory;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
@@ -19,9 +20,6 @@ import java.util.Random;
 
 public class CheckStatusService extends IntentService {
   private static int NOTIFICATION_ID_BASE = new Random(System.currentTimeMillis()).nextInt();
-
-  static final long INTERVAL_FOREGROUND = 20 * 1000;
-  static final long INTERVAL_BACKGROUND = 1 * 60 * 1000;
 
   public CheckStatusService() {
     super(CheckStatusService.class.getName());
@@ -80,7 +78,11 @@ public class CheckStatusService extends IntentService {
         .setContentTitle("In stock: " + device.name)
         .setDefaults(Notification.DEFAULT_ALL)
         .setWhen(System.currentTimeMillis())
-        .setContentText("Your device is in stock. Go buy it.");
+        .setContentText("Your device is in stock. Tap here to buy it.")
+        .setStyle(new Notification.BigPictureStyle()
+            .bigPicture(BitmapFactory.decodeResource(getResources(), device.imageId))
+            .setBigContentTitle("In stock: " + device.name)
+            .setSummaryText("Your device is in stock. Tap here to buy it."));
 
     Intent notificationIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(device.pageUrl));
     notificationIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -92,7 +94,6 @@ public class CheckStatusService extends IntentService {
     Notification notification = mBuilder.build();
     notificationManager.notify(NOTIFICATION_ID_BASE + device.ordinal(), notification);
   }
-
 
   static void schedule(Context context) {
     Intent intent = new Intent(context, CheckStatusReceiver.class);
@@ -109,7 +110,6 @@ public class CheckStatusService extends IntentService {
     alarmMgr.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + interval * 1000, alarmIntent);
   }
 
-
   static boolean isForeground(Context context) {
     ActivityManager am = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
     List<ActivityManager.RunningTaskInfo> taskInfo = am.getRunningTasks(1);
@@ -119,5 +119,4 @@ public class CheckStatusService extends IntentService {
     }
     return false;
   }
-
 }
